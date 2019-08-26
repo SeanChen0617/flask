@@ -45,7 +45,7 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-	if current_user.is_authenticated():
+	if current_user.is_authenticated:
 		return redirect(url_for('index'))
 	form = RegistrationForm()
 	if form.validate_on_submit():
@@ -53,6 +53,17 @@ def register():
 		user.set_password(form.password.data)
 		db.session.add(user)
 		db.session.commit()
-		flash('You are now registered. Welcome:{}'.format(form.username.data))
+		flash('Register successfully. Welcome:{}'.format(form.username.data))
 		return redirect(url_for('login'))
+	flash('Test:{}'.format(form.username.data))
 	return render_template('register.html', title='Register', form=form)
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+	user = User.query.filter_by(username=username).first_or_404()
+	posts = [
+		{'author': user, 'body': 'Test Post #1'},
+		{'author': user, 'body': 'Test Post #2'}
+	]
+	return render_template('user.html', user=user, posts=posts)
