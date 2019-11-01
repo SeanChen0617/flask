@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style type="text/css">
+        table, tr, td {
+            border: 1px solid black;
+        }
+    </style>
+	<table>
+		<tr>
+			<td>股票名稱 - 股票代號</td> 
+			<td>開盤價</td>
+			<td>最新價格</td>
+			<td>漲跌</td>
+			<td>成本價</td>
+			<td>五日價格</td>
+		</tr>
+		{% for stock in stocks %}
+			<tr>
+				<td>{{stock.stock_name}} - {{stock.stock_code}}</td> 
+				<td>{{stock.stock_open_price}}</td>
+				{% if stock.stock_latest_price >= stock.stock_open_price %}
+					<td style="color: orange;">{{stock.stock_latest_price}}</td>
+					<td style="color: orange;">{{stock.percentage}}%</td>
+				{% else %}
+					<td style="color: lightblue;">{{stock.stock_latest_price}}</td>
+					<td style="color: lightblue;">{{stock.percentage}}%</td>	
+				{% endif %}
+				<td>{{stock.stock_buy_in_price}}</td>
+				<td>{{stock.stock_price}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}
