@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 #from flask_login import UserMixin
 
 
+
 class Stocks(db.Model):
     stock_code = db.Column(db.String(10), primary_key=True)
     stock_name = db.Column(db.String(50))
